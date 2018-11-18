@@ -80,7 +80,6 @@ def energy_fcc(a,c=None):
             'wf_collect': False,
             },
 
-        outdir = 'calcdir_opt',
         kpts = (8,8,8),
         parflags = None,
         xc = 'BEEF-vdW',
