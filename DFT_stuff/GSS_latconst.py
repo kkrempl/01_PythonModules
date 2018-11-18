@@ -80,21 +80,21 @@ def energy_fcc(a,c=None):
             "wf_collect": False,
             },
 
-        "outdir": 'calcdir_opt',
-        "kpts": (8,8,8),
+        "outdir": "calcdir_opt",
+        "kpts": ["8","8","8"),
         "parflags": None,
-        "xc": 'BEEF-vdW',
+        "xc": "BEEF-vdW",
         "nbands": -50,
         "convergence": {
             "nmix": 20,
-            "diag": 'david',
+            "diag": "david",
             "energy": 2e-06,
-            "mixing_mode": 'local-TF',
+            "mixing_mode": "local-TF",
             "maxsteps": 500,
             "mixing": 0.2
             },
         "dw": 8000.0,
-        "outdir": 'calcdir',
+        "outdir": "calcdir",
         "pw": 800,
         "noncollinear": False,
         "dipole": {
