@@ -72,44 +72,41 @@ def energy_fcc(a,c=None):
 
     atoms=bulk(name, crystalstructure, a=a, c=c)
 
-    params= {
-        "output": {
-            "avoidio": True,
-            "removesave": True,
-            "removewf": True,
-            "wf_collect": False,
+    calc= espresso(
+        output = {
+            'avoidio': True,
+            'removesave': True,
+            'removewf': True,
+            'wf_collect': False,
             },
 
-        "outdir": "calcdir_opt",
-        "kpts": ["8","8","8"],
-        "parflags": None,
-        "xc": "BEEF-vdW",
-        "nbands": -50,
-        "convergence": {
-            "nmix": 20,
-            "diag": "david",
-            "energy": 2e-06,
-            "mixing_mode": "local-TF",
-            "maxsteps": 500,
-            "mixing": 0.2
+        outdir = 'calcdir_opt',
+        kpts = (8,8,8),
+        parflags = None,
+        xc = 'BEEF-vdW',
+        nbands = -50,
+        convergence = {
+            'nmix': 20,
+            'diag': 'david',
+            'energy': 2e-06,
+            'mixing_mode': 'local-TF',
+            'maxsteps': 500,
+            'mixing': 0.2
             },
-        "dw": 8000.0,
-        "outdir": "calcdir",
-        "pw": 800,
-        "noncollinear": False,
-        "dipole": {
-            "status": True
+        dw = 8000.0,
+        outdir = 'calcdir',
+        pw = 800,
+        noncollinear = False,
+        dipole = {
+            'status': True
             },
-        "beefensemble": True,
-        "printensemble": True,
-        "output": {
-            "removesave": True
-            },
-        "sigma": 0.005,
-        "spinpol": True
-        }
+        beefensemble = True,
+        printensemble = True,
+        sigma = 0.005,
+        spinpol = True
+        )
 
-    atoms.set_calculator(**params)
+    atoms.set_calculator(calc)
     return atoms.get_potential_energy()
 
 
