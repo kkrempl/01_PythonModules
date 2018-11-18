@@ -109,8 +109,7 @@ def energy_fcc(a,c=None):
         "spinpol": True
         }
 
-    atoms.set_calculator(params)
-    clean_up_dft()
+    atoms.set_calculator(**params)
     return atoms.get_potential_energy()
 
 
