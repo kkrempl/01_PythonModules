@@ -81,7 +81,7 @@ def energy_fcc(a,c=None):
             },
 
         "outdir": "calcdir_opt",
-        "kpts": ["8","8","8"),
+        "kpts": ["8","8","8"],
         "parflags": None,
         "xc": "BEEF-vdW",
         "nbands": -50,
