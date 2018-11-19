@@ -62,9 +62,9 @@ intervall: [x,y]
 
 """
 
-name = 'Ni'
-crystalstructure = 'fcc'
-init_lat_const= [3.5, 3.5]
+name = 'Co'
+crystalstructure = 'hcp'
+init_lat_const= [2.5, 4]
 calc= espresso(
     output = {
         'avoidio': True,
@@ -111,11 +111,11 @@ def energy_1D(lat_const):
     print(str(sol) + '; ' + str(lat_const))
     return sol
 
-def energy_2D(lat_const):
+def energy_2D(lat_const(2)):
 
     atoms=bulk(name, crystalstructure, a=lat_const[0], c=lat_const[1])
     atoms.set_calculator(calc)
-    atoms.set_initial_magnetic_moments([6])
+    atoms.set_initial_magnetic_moments([6,6])
     sol = atoms.get_potential_energy()
     print(str(sol) + '; ' + str(lat_const[0]) + '; ' + str(lat_const[1]))
     return sol
