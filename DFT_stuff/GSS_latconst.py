@@ -119,7 +119,7 @@ def energy(a,c=None):
 res = opt.minimize_scalar(energy,
                             bounds=(experimental_a-0.5, experimental_a+0.5),
                             method='brent',
-                            tol=0.001,
+                            tol=0.001
                             )
 print(res.x)
 atoms_out = bulk(name, crystalstructure, a=res.x)
