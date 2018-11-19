@@ -105,7 +105,7 @@ def energy(a,c=None):
         beefensemble = True,
         printensemble = True,
         sigma = 0.005,
-        spinpol = True
+        spinpol = True,
         mode='scf'
         )
 
