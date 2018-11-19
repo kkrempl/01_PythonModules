@@ -114,7 +114,7 @@ def energy(a):
 #| - Minimize potential energy
 
 res = opt.minimize_scalar(energy,
-                            bounds=(experimental_a-0.2, experimental_a+0.2),
+                            bounds=(3.4, 3.6),
                             method='brent',
                             tol=0.001
                             )
