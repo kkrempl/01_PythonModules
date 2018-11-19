@@ -132,7 +132,7 @@ if crystalstructure == 'hcp':
 
 else:
     res = opt.minimize_scalar(energy_1D,
-                            bracket=(init_lat_const[0]-0.2, init_lat_const[0]-0.2),
+                            bracket=(init_lat_const[0]-0.2, init_lat_const[0]+0.2),
                             method='Brent',
                             tol=1e-6
                             )
