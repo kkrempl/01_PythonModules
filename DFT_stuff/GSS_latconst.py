@@ -106,6 +106,7 @@ def energy(a):
 
     atoms=bulk(name, crystalstructure, a=a)
     atoms.set_calculator(calc)
+    atoms.set_initial_magnetic_moments([3])
     sol = atoms.get_potential_energy()
     print(sol)
     return sol
