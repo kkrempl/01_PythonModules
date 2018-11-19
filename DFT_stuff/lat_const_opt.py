@@ -106,7 +106,7 @@ def energy_1D(lat_const):
 
     atoms=bulk(name, crystalstructure, a=lat_const)
     atoms.set_calculator(calc)
-    atoms.set_initial_magnetic_moments([1,1])
+    #atoms.set_initial_magnetic_moments([1,1])
     sol = atoms.get_potential_energy()
     print(str(sol) + '; ' + str(lat_const))
     return sol
@@ -115,7 +115,7 @@ def energy_2D(lat_const):
 
     atoms=bulk(name, crystalstructure, a=lat_const[0], c=lat_const[1])
     atoms.set_calculator(calc)
-    atoms.set_initial_magnetic_moments([1,1])
+    #atoms.set_initial_magnetic_moments([1,1])
     sol = atoms.get_potential_energy()
     print(str(sol) + '; ' + str(lat_const[0]) + '; ' + str(lat_const[1]))
     return sol
