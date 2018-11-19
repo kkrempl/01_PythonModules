@@ -106,6 +106,7 @@ def energy(a,c=None):
         printensemble = True,
         sigma = 0.005,
         spinpol = True
+        mode='scf'
         )
 
     atoms.set_calculator(calc)
