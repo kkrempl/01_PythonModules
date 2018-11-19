@@ -104,7 +104,7 @@ calc= espresso(
 
 def energy_1D(lat_const):
 
-    atoms=bulk(name, crystalstructure, a=lat_const)
+    atoms=bulk(name, crystalstructure, a=lat_const[0])
     atoms.set_calculator(calc)
     atoms.set_initial_magnetic_moments([6])
     sol = atoms.get_potential_energy()
@@ -132,7 +132,7 @@ if crystalstructure == 'hcp':
 
 else:
     res = opt.minimize_scalar(energy_1D,
-                            bracket=(experimental_a-0.2, experimental_a=0.2),
+                            bracket=(experimental_a-0.2, experimental_a-0.2),
                             method='Brent',
                             tol=1e-6
                             )
