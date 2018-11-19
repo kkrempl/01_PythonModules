@@ -71,9 +71,9 @@ experimental_a = 3.5
 
 #| - Function calculating potential energy for given lattice constants
 
-def energy(a,c=None):
+def energy(a):
 
-    atoms=bulk(name, crystalstructure, a=a, c=c)
+    atoms=bulk(name, crystalstructure, a=a)
 
     calc= espresso(
         output = {
@@ -114,11 +114,11 @@ def energy(a,c=None):
     print(sol)
     return sol
 #__|
-energy(experimental_a)
+
 #| - Minimize potential energy
 
 res = opt.minimize_scalar(energy,
-                            bounds=(experimental_a-0.1, experimental_a+0.1),
+                            bounds=(experimental_a-0.2, experimental_a+0.2),
                             method='brent',
                             tol=0.001
                             )
