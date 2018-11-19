@@ -95,7 +95,7 @@ calc= espresso(
     beefensemble = True,
     printensemble = True,
     sigma = 0.005,
-    spinpol = True
+    spinpol = False
     )
 
 #__|
