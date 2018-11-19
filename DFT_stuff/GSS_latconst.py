@@ -116,13 +116,13 @@ def energy(a,c=None):
 energy(experimental_a)
 #| - Minimize potential energy
 
-# res = opt.minimize_scalar(energy,
-#                             bounds=(experimental_a-0.3, experimental_a+0.3),
-#                             method='brent',
-#                             tol=0.001
-#                             )
-# print(res.x)
-# atoms_out = bulk(name, crystalstructure, a=res.x)
-# write(name+'_'+crystalstructure+'bulk.traj', atoms_out)
+res = opt.minimize_scalar(energy,
+                            bounds=(experimental_a-0.1, experimental_a+0.1),
+                            method='brent',
+                            tol=0.001
+                            )
+print(res.x)
+atoms_out = bulk(name, crystalstructure, a=res.x)
+write(name+'_'+crystalstructure+'bulk.traj', atoms_out)
 
 #__|
