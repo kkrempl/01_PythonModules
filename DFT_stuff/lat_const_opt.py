@@ -104,7 +104,7 @@ calc= espresso(
 
 def energy_1D(lat_const):
 
-    atoms=bulk(name, crystalstructure, a=lat_const[0])
+    atoms=bulk(name, crystalstructure, a=lat_const)
     atoms.set_calculator(calc)
     atoms.set_initial_magnetic_moments([6])
     sol = atoms.get_potential_energy()
