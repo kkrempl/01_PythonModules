@@ -45,7 +45,7 @@ from ase.io import write
 
 from espresso import espresso
 
-import scipi.optimize as opt
+import scipy.optimize as opt
 
 #__|
 
