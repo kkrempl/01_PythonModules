@@ -88,7 +88,7 @@ calc= espresso(
     dw = 6000.0,
     outdir = 'calcdir',
     pw = 600,
-    noncollinear = False,
+    #noncollinear = False,
     dipole = {
         'status': False
         },
