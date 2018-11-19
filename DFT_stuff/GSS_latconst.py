@@ -96,7 +96,6 @@ calc= espresso(
     printensemble = True,
     sigma = 0.005,
     spinpol = False,
-    mode = 'scf'
     )
 
 #__|
@@ -115,8 +114,8 @@ def energy(a):
 #| - Minimize potential energy
 
 res = opt.minimize_scalar(energy,
-                            bounds=(3.4, 3.6),
-                            method='brent',
+                            bracket=(3.4, 3.6),
+                            method='Brent',
                             tol=0.001
                             )
 print(res.x)
