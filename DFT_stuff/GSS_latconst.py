@@ -1,4 +1,4 @@
-#/usr/bin/env python
+#!/usr/bin/env python
 #| - SLURM HEADER
 #above line selects special python interpreter which knows all the paths
 #SBATCH -p iric,owners
@@ -42,7 +42,10 @@
 #| - Import Modules
 from ase.build import bulk
 from ase.io import write
+
 from espresso import espresso
+
+import scipi.optimize as opt
 
 #__|
 
@@ -61,14 +64,14 @@ intervall: [x,y]
 
 name = 'Ni'
 crystalstructure = 'fcc'
-intervall = [0.5,0.5]
+experimental_a = 3.5
 
 
 #__|
 
 #| - Function calculating potential energy for given lattice constants
 
-def energy_fcc(a,c=None):
+def energy(a,c=None):
 
     atoms=bulk(name, crystalstructure, a=a, c=c)
 
@@ -107,6 +110,15 @@ def energy_fcc(a,c=None):
 
     atoms.set_calculator(calc)
     return atoms.get_potential_energy()
+#__|
 
+#| - Minimize potential energy
 
-print(energy_fcc(3.524))
+res = opt.minimize_scalar(energy,
+                            bounds=(experimental_a-0.5, experimental_a+0.5),
+                            method='brent',
+                            tol=10e-4,
+                            )
+print(res.x)
+atoms_out = bulk(name, crystalstructure, a=res.x)
+write(name+'_'+crystalstructure+'bulk.traj', atoms_out)
