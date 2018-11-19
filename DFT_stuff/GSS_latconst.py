@@ -27,7 +27,7 @@
 #you could use --mem-per-cpu; they mean what we are calling cores
 #################
 #get emailed about job BEGIN, END, and FAIL
-#SBATCH --mail-type=ALL
+#SBATCH --mail-type=FAIL
 #################
 #who to send email to; please change to your email
 #SBATCH  --mail-user=kkrempl@stanford.edu
@@ -113,16 +113,16 @@ def energy(a,c=None):
     print(sol)
     return sol
 #__|
-
+energy(experimental_a)
 #| - Minimize potential energy
 
-res = opt.minimize_scalar(energy,
-                            bounds=(experimental_a-0.5, experimental_a+0.5),
-                            method='brent',
-                            tol=0.001
-                            )
-print(res.x)
-atoms_out = bulk(name, crystalstructure, a=res.x)
-write(name+'_'+crystalstructure+'bulk.traj', atoms_out)
+# res = opt.minimize_scalar(energy,
+#                             bounds=(experimental_a-0.3, experimental_a+0.3),
+#                             method='brent',
+#                             tol=0.001
+#                             )
+# print(res.x)
+# atoms_out = bulk(name, crystalstructure, a=res.x)
+# write(name+'_'+crystalstructure+'bulk.traj', atoms_out)
 
 #__|
