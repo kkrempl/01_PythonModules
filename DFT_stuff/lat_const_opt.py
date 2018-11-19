@@ -64,7 +64,7 @@ intervall: [x,y]
 
 name = 'Ni'
 crystalstructure = 'fcc'
-experimental_a = 3.5
+init_lat_const= [3.5, 3.5]
 calc= espresso(
     output = {
         'avoidio': True,
@@ -100,27 +100,46 @@ calc= espresso(
 
 #__|
 
-#| - Function calculating potential energy for given lattice constants
+#| - Functions calculating potential energy for given lattice constants
 
-def energy(a):
+def energy_1D(lat_const):
 
-    atoms=bulk(name, crystalstructure, a=a)
+    atoms=bulk(name, crystalstructure, a=lat_const)
     atoms.set_calculator(calc)
-    atoms.set_initial_magnetic_moments([3])
+    atoms.set_initial_magnetic_moments([6])
     sol = atoms.get_potential_energy()
-    print(sol)
+    print(str(sol) + '; ' + str(lat_const))
+    return sol
+
+def energy_2D(lat_const):
+
+    atoms=bulk(name, crystalstructure, a=lat_const[0], c=lat_const[1])
+    atoms.set_calculator(calc)
+    atoms.set_initial_magnetic_moments([6])
+    sol = atoms.get_potential_energy()
+    print(str(sol) + '; ' + str(lat_const[0]) + '; ' + str(lat_const[1]))
     return sol
 #__|
 
 #| - Minimize potential energy
-
-res = opt.minimize_scalar(energy,
-                            bracket=(3.4, 3.6),
-                            method='Brent',
-                            tol=0.001
+if crystalstructure == 'hcp':
+    res = opt.minimize(energy_2D,
+                            init_lat_const,
+                            method='BFGS',
+                            tol=1e-6
                             )
+    atoms_out = bulk(name, crystalstructure, a=res.x[0], c=res.x[1])
+
+else:
+    res = opt.minimize_scalar(energy_1D,
+                            bracket=(experimental_a-0.2, experimental_a=0.2),
+                            method='Brent',
+                            tol=1e-6
+                            )
+    atoms_out = bulk(name, crystalstructure, a=res.x)
+
 print(res.x)
-atoms_out = bulk(name, crystalstructure, a=res.x)
-write(name+'_'+crystalstructure+'bulk.traj', atoms_out)
+
+write(name+'_'+crystalstructure+'_bulk_optimized.traj', atoms_out)
 
 #__|
