@@ -65,7 +65,39 @@ intervall: [x,y]
 name = 'Ni'
 crystalstructure = 'fcc'
 experimental_a = 3.5
+calc= espresso(
+    output = {
+        'avoidio': True,
+        'removesave': True,
+        'removewf': True,
+        'wf_collect': False,
+        },
 
+    kpts = (8,8,8),
+    parflags = None,
+    xc = 'BEEF-vdW',
+    nbands = -50,
+    convergence = {
+        'nmix': 20,
+        'diag': 'david',
+        'energy': 2e-06,
+        'mixing_mode': 'local-TF',
+        'maxsteps': 500,
+        'mixing': 0.2
+        },
+    dw = 8000.0,
+    outdir = 'calcdir',
+    pw = 800,
+    noncollinear = False,
+    dipole = {
+        'status': True
+        },
+    beefensemble = True,
+    printensemble = True,
+    sigma = 0.005,
+    spinpol = True,
+    mode='scf'
+    )
 
 #__|
 
@@ -74,41 +106,6 @@ experimental_a = 3.5
 def energy(a):
 
     atoms=bulk(name, crystalstructure, a=a)
-
-    calc= espresso(
-        output = {
-            'avoidio': True,
-            'removesave': True,
-            'removewf': True,
-            'wf_collect': False,
-            },
-
-        kpts = (8,8,8),
-        parflags = None,
-        xc = 'BEEF-vdW',
-        nbands = -50,
-        convergence = {
-            'nmix': 20,
-            'diag': 'david',
-            'energy': 2e-06,
-            'mixing_mode': 'local-TF',
-            'maxsteps': 500,
-            'mixing': 0.2
-            },
-        dw = 8000.0,
-        outdir = 'calcdir',
-        pw = 800,
-        noncollinear = False,
-        dipole = {
-            'status': True
-            },
-        beefensemble = True,
-        printensemble = True,
-        sigma = 0.005,
-        spinpol = True,
-        mode='scf'
-        )
-
     atoms.set_calculator(calc)
     sol = atoms.get_potential_energy()
     print(sol)
