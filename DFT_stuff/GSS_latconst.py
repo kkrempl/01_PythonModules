@@ -73,7 +73,7 @@ calc= espresso(
         'wf_collect': False,
         },
 
-    kpts = (8,8,8),
+    kpts = (6,6,6),
     parflags = None,
     xc = 'BEEF-vdW',
     nbands = -50,
@@ -85,17 +85,18 @@ calc= espresso(
         'maxsteps': 500,
         'mixing': 0.2
         },
-    dw = 8000.0,
+    dw = 6000.0,
     outdir = 'calcdir',
-    pw = 800,
+    pw = 600,
     noncollinear = False,
     dipole = {
-        'status': True
+        'status': False
         },
     beefensemble = True,
     printensemble = True,
     sigma = 0.005,
     spinpol = False
+    mode = 'scf'
     )
 
 #__|
