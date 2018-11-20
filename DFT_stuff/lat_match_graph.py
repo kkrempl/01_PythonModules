@@ -64,7 +64,8 @@ nlayers_substrate = 2
 # Lattice matching algorithm parameters
 max_area = 400
 max_mismatch = 4
-max_angle_diff = 1 r1r2_tol = 0.01
+max_angle_diff = 1
+r1r2_tol = 0.01
 
 #__|
 
@@ -75,8 +76,10 @@ max_angle_diff = 1 r1r2_tol = 0.01
 substrate_bulk = Structure.from_file(bulk_filename)
 substrate_slab = Interface(substrate_bulk, hkl = surface_cut, min_thick = 10, min_vac = 25, primitive = False, from_ase = True)
 mat2d_slab = slab_from_file([0,0,1], graphene_filename)
+
 # get aligned lattices
 substrate_slab_aligned, mat2d_slab_aligned = get_aligned_lattices(substrate_slab, mat2d_slab, max_area = max_area, max_mismatch = max_mismatch, max_angle_diff = max_angle_diff, r1r2_tol = r1r2_tol)
+
 # merge substrate and mat2d in all possible
 #ways
 hetero_interfaces = generate_all_configs(mat2d_slab_aligned, substrate_slab_aligned, nlayers_2d, nlayers_substrate, separation)
