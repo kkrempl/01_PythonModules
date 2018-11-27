@@ -36,13 +36,13 @@ from ase import io
 strain_sys = "overlayer"  # 'support' or 'overlayer'
 
 bulk_filename = 'Cobulk.cif'
-graphene_filename = 'graph.cif'
+graphene_filename = 'init_graphene.cif'
 
 surface_cuts = [[0, 0, 1],[1,0,0],[1,0,1],[1,1,0],[2,1,0]]
 
 separation = 3
 nlayers_2d = 1
-nlayers_substrate = 3
+nlayers_substrate = 1
 
 # Lattice matching algorithm parameters
 max_area = 1000
