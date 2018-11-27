@@ -25,6 +25,8 @@ from mpinterfaces.utils import slab_from_file
 from mpinterfaces.interface import Interface
 
 from pymatgen.io.ase import AseAtomsAdaptor
+from pymatgen.io.cif import CifWriter
+from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
 
 from ase import io
 #__|
@@ -59,13 +61,19 @@ if not os.path.exists(out_dir):
 mat2d_slab = slab_from_file([0, 0, 1], graphene_filename)
 substrate_bulk = Structure.from_file(bulk_filename)
 
+analyzer=SpacegroupAnalyzer(substrate_bulk)
+substrate_bulk_conv=analyzer.get_conventional_standard_structure()
+
+writer=CifWriter(substrate_bulk_conv)
+writer.write_file("conv_" + bulk_filename)
+
 
 #| - Loop over all surface surface_cuts
 
 for surface_cut in surface_cuts:
 
     substrate_slab = Interface(
-        substrate_bulk,
+        substrate_bulk_conv,
         hkl=surface_cut,
         min_thick=10,
         min_vac=25,
