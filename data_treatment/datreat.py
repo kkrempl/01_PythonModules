@@ -34,9 +34,11 @@ class cyclic_voltamogram:
 
         CVcorr1= np.column_stack((self.CVraw[:,0]+shift+abs(self.CVraw[:,1])*solres/1000, self.CVraw[:,1]/sa))
         CVcorr2 = np.column_stack((self.capcorr[:,0]+shift+abs(self.capcorr[:,1])*solres/1000, self.capcorr[:,1]/sa))
-
-        func = interp1d(CVcorr2[:,0], CVcorr2[:,1], fill_value = 'extrapolate')
-        CVcorr3 = np.column_stack((CVcorr1[:,0],CVcorr1[:,1]-func(CVcorr1[:,0])))
+        if self.capcorr[0,0]==0:
+            CVcorr3=CVcorr1
+        else:
+            func = interp1d(CVcorr2[:,0], CVcorr2[:,1], fill_value = 'extrapolate')
+            CVcorr3 = np.column_stack((CVcorr1[:,0],CVcorr1[:,1]-func(CVcorr1[:,0])))
 
         return [CVcorr1, CVcorr2, CVcorr3]
 
@@ -79,13 +81,13 @@ class CV_plot:
             plt.plot(currentCV[:,0], currentCV[:,1], label=CV.name)
 
         ax=plt.gca()
-        ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+        ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
         if kwargs.get('range', 0)!= 0:
             plt.axis(kwargs.get('range'))
-        plt.xlabel(u'$\it E_{iR\u2010free}$ ${[V_{RHE}]}$')
+        plt.xlabel(u'$\it E_{iR\u2010corr}$ ${[V_{RHE}]}$')
         plt.ylabel(r'$\it i_{geo}$ $[\frac{mA}{cm^2}]$')
         strConditions = self.scanrate + r'$\,\frac{mV}{s}$ in ' + self.electrolyte
-        plt.text(0.58, 0.5, strConditions, transform=ax.transAxes, ha = 'left', va = 'top', bbox=dict(facecolor='white', edgecolor='black', linestyle='--'))
+        plt.text(0.05, 0.05, strConditions, transform=ax.transAxes, ha = 'left', va = 'bottom', bbox=dict(facecolor='white', edgecolor='black', linestyle='--'))
         plt.legend(loc = 4)
         plt.grid(True)
         plt.tight_layout()
@@ -126,9 +128,39 @@ class Raman_plot:
 
     def __init__(self, spectras, **kwargs):
         self.spectras = spectras
+        self.range = kwargs.get('range', [500, 3000])
+        self.D = kwargs.get('D', False)
 
-    def mkplot(self, name, **kwargs):
-        test=1
+    def mkplot(self, figname, **kwargs):
+
+        plt.style.use('mystandart')
+        plt.figure(figsize = (6.5, 5))
+
+        x=0
+        for key, value in self.spectras.iteritems():
+            xydata=value.xydata
+            plt.plot(xydata[:,0], normalize_vec(xydata[:,1])+x, label=value.name)
+            x=x+1
+
+        plt.xlabel(u'Raman shift $[cm^{-1}]$')
+        #plt.xlabel(u'$\it E_{iR \u2010 corr}$ ${[V_{RHE}]}$')
+        plt.ylabel(r'Raman Intensity [a.u.]')
+        ax=plt.gca()
+        ax.set_yticklabels('')
+        ax.set_yticks([])
+        ax.set_xlim(self.range)
+        plt.text(0.42, 0.9, 'G', ha = 'right', va = 'top', transform=ax.transAxes)
+        plt.text(0.86, 0.8, '2D', ha = 'right', va = 'top', transform=ax.transAxes)
+        if self.D==True:
+            plt.text(0.3, 0.8, 'D', ha = 'right', va = 'top', transform=ax.transAxes)
+        plt.legend(loc = 2)
+        #plt.grid(True)
+        plt.tight_layout()
+        plt.savefig(figname + '.png')
+
+
+
+
 
 
 class XRD_diffrac:
@@ -201,7 +233,7 @@ class XRD_plot:
             current_ax.set_yticklabels('')
             current_ax.set_yticks([])
             current_ax.set_xlim(self.range)
-            #current_ax.vlines([19.657, 22.752, 32.469, 38.275, 40.044],0,1, transform=current_ax.get_xaxis_transform(), colors='red', linewidths=1, linestyles='dashed')
+            current_ax.vlines([19.657, 22.752, 32.469, 38.275, 40.044],0,1, transform=current_ax.get_xaxis_transform(), colors='red', linewidths=1, linestyles='dashed')
             current_ax.vlines([20.178, 28.687, 35.325, 41.018, 46.122],0,1, transform=current_ax.get_xaxis_transform(), colors='red', linewidths=1, linestyles='dashed')
             current_ax.vlines([13.732, 16.135, 19.468, 27.761, 25.48],0,1, transform=current_ax.get_xaxis_transform(), colors='blue', linewidths=1, linestyles='dashed')
             current_ax.legend(loc=1)
@@ -211,3 +243,8 @@ class XRD_plot:
         fig.tight_layout()
         fig.subplots_adjust(hspace=0)
         fig.savefig(figname + '.png', bbox_inches='tight')
+
+
+def normalize_vec(vector):
+    x = (vector-vector.min())/(vector.max()-vector.min())
+    return x
